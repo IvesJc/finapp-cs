@@ -1,4 +1,6 @@
 using FinApp.Data;
+using FinApp.Interfaces.Stock;
+using FinApp.Repository.Stock;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,6 +17,8 @@ builder.Services.AddControllers();
 builder.Services.AddControllersWithViews(options => { options.SuppressAsyncSuffixInActionNames = false; });
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddScoped<IStockRepository, StockRepository>();
 
 var app = builder.Build();
 
