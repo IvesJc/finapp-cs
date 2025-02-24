@@ -1,0 +1,6 @@
+@FinApp_HostAddress = http://localhost:5197
+
+GET {{FinApp_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
