@@ -1,5 +1,7 @@
 using FinApp.Data;
+using FinApp.Interfaces.Comment;
 using FinApp.Interfaces.Stock;
+using FinApp.Repository.CommentRepository;
 using FinApp.Repository.Stock;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,6 +21,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<IStockRepository, StockRepository>();
+builder.Services.AddScoped<ICommentRepository, CommentRepository>();
 
 var app = builder.Build();
 
