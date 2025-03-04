@@ -1,29 +1,30 @@
 ﻿using FinApp.DTOs.Stock;
+using FinApp.Mappers.Comment;
 using FinApp.Models;
 
 namespace FinApp.Mappers.Stock;
 
 public static class StockMappers
 {
-    public static StockDto ToStockDto(this StockModel stockModel)
+    public static StockDto ToStockDto(this Models.Stock stock)
     {
         return new StockDto()
         {
-            Id = stockModel.Id,
-            Symbol = stockModel.Symbol,
-            CompanyName = stockModel.CompanyName,
-            MarketCap = stockModel.MarketCap,
-            Purchase = stockModel.Purchase,
-            LastDiv = stockModel.LastDiv,
-            Industry = stockModel.Industry,
+            Id = stock.Id,
+            Symbol = stock.Symbol,
+            CompanyName = stock.CompanyName,
+            MarketCap = stock.MarketCap,
+            Purchase = stock.Purchase,
+            LastDiv = stock.LastDiv,
+            Industry = stock.Industry,
+            Comments = stock.Comments.Select(c => c.ToCommentDto()).ToList(),
         };
     }
 
-    public static StockModel ToStockModel(this StockDto stockDto)
+    public static Models.Stock ToStockModel(this StockDto stockDto)
     {
-        return new StockModel()
+        return new Models.Stock()
         {
-            Id = stockDto.Id,
             Symbol = stockDto.Symbol,
             CompanyName = stockDto.CompanyName,
             MarketCap = stockDto.MarketCap,
@@ -33,9 +34,9 @@ public static class StockMappers
         };
     }
 
-    public static StockModel ToStockFromCreateDto(this CreateStockRequestDto stockDto)
+    public static Models.Stock ToStockFromCreateDto(this CreateStockRequestDto stockDto)
     {
-        return new StockModel()
+        return new Models.Stock()
         {
             Symbol = stockDto.Symbol,
             CompanyName = stockDto.CompanyName,

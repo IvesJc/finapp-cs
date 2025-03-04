@@ -9,6 +9,6 @@ public class AppDBContext : DbContext
     {
     }
     
-    public DbSet<StockModel> Stocks { get; set; }
-    public DbSet<CommentModel> Comments { get; set; }
+    public DbSet<Stock> Stocks { get; set; }
+    public DbSet<Comment> Comments { get; set; }
 }

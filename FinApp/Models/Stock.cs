@@ -1,12 +1,13 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FinApp.Models;
 
 [Table("tb_stock")]
-public class StockModel
+public class Stock
 {
-    [Key]
     public Guid Id { get; set; } = Guid.NewGuid();
     
     [Column(TypeName = "varchar(10)")]
@@ -25,6 +26,5 @@ public class StockModel
     public string Industry { get; set; } = string.Empty;
     public long MarketCap { get; set; }
 
-    [Column(TypeName = "varchar(100)")]
-    public List<CommentModel> Comments { get; set; } = [];
+    public List<Comment> Comments { get; set; } = [];
 }

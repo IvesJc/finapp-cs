@@ -1,4 +1,8 @@
-﻿using FinApp.Data;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using FinApp.Data;
 using FinApp.DTOs.Comment;
 using FinApp.Interfaces.Comment;
 using FinApp.Mappers.Comment;
@@ -9,28 +13,24 @@ namespace FinApp.Repository.CommentRepository;
 
 public class CommentRepository(AppDBContext dbContext) : ICommentRepository
 {
-    public async Task<List<CommentModel>> GetAllCommentsAsync()
+    public async Task<List<Comment>> GetAllCommentsAsync()
     {
-        var comments = await dbContext.Comments.Select(c => c.ToCommentDto()).ToListAsync();
-        return comments.Select(dto => dto.ToCommentModel()).ToList();
+        return await dbContext.Comments.ToListAsync();
     }
 
-    public async Task<CommentModel?> GetCommentByIdAsync(Guid id)
+    public async Task<Comment?> GetCommentByIdAsync(Guid id)
     {
-        var commentModel = await dbContext.Comments.FindAsync(id);
-        var commentDto = commentModel?.ToCommentDto();
-        return commentDto?.ToCommentModel();
+        return await dbContext.Comments.FindAsync(id);
     }
 
-    public async Task<CommentModel> CreateCommentAsync(CreateCommentDto createCommentDto)
+    public async Task<Comment> CreateCommentAsync(Comment createCommentDto)
     {
-        var newComment = createCommentDto.ToCommentDtoFromCreateCommentModel();
-        await dbContext.AddAsync(newComment);
-        return newComment;
-
+        await dbContext.AddAsync(createCommentDto);
+        await dbContext.SaveChangesAsync();
+        return createCommentDto;
     }
 
-    public async Task<CommentModel?> UpdateCommentByAsync(Guid id, UpdateCommentDto updateCommentDto)
+    public async Task<Comment?> UpdateCommentByAsync(Guid id, UpdateCommentDto updateCommentDto)
     {
         var comment = await dbContext.Comments.FirstOrDefaultAsync(c => c.Id == id);
         if (comment == null)
@@ -40,15 +40,12 @@ public class CommentRepository(AppDBContext dbContext) : ICommentRepository
         
         comment.Title = updateCommentDto.Title;
         comment.Content = updateCommentDto.Content;
-        comment.CreatedOn = updateCommentDto.CreatedOn;
-        comment.StockId = updateCommentDto.StockId;
-        comment.StockModel = updateCommentDto.StockModel;
 
         await dbContext.SaveChangesAsync();
         return comment;
     }
 
-    public async Task<CommentModel?> DeleteCommentByAsync(Guid id)
+    public async Task<Comment?> DeleteCommentByAsync(Guid id)
     {
         var comment = await dbContext.Comments.FirstOrDefaultAsync(c => c.Id == id);
         if (comment == null)

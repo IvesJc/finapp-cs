@@ -1,12 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FinApp.Models;
 
 [Table("tb_comment")]
-public class CommentModel
+public class Comment
 {
-    [Key]
     public Guid Id { get; set; } = Guid.NewGuid();
     
     [Column(TypeName = "varchar(50)")]
@@ -16,6 +16,5 @@ public class CommentModel
     public string Content { get; set; } = string.Empty;
     public DateTime CreatedOn { get; set; } = DateTime.Now;
     
-    public int? StockId { get; set; }
-    public StockModel StockModel { get; set; }
+    public Guid? StockId { get; set; }
 }

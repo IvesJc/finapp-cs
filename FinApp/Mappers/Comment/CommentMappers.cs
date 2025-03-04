@@ -5,41 +5,35 @@ namespace FinApp.Mappers.Comment;
 
 public static class CommentMappers
 {
-    public static CommentDto ToCommentDto(this CommentModel commentModel)
+    public static CommentDto ToCommentDto(this Models.Comment comment)
     {
         return new CommentDto
         {
-            Id = commentModel.Id,
-            Title = commentModel.Title,
-            Content = commentModel.Content,
-            CreatedOn = commentModel.CreatedOn,
-            StockModel = commentModel.StockModel,
-            StockId = commentModel.StockId
+            Id = comment.Id,
+            Title = comment.Title,
+            Content = comment.Content,
+            CreatedOn = comment.CreatedOn,
+            StockId = comment.StockId
         };
     }
 
-    public static CommentModel ToCommentModel(this CommentDto commentDto)
+    public static Models.Comment ToCommentDtoFromCreate(this CreateCommentDto commentDto, Guid stockId)
     {
-        return new CommentModel()
+        return new Models.Comment()
         {
-            Id = commentDto.Id,
             Title = commentDto.Title,
             Content = commentDto.Content,
-            CreatedOn = commentDto.CreatedOn,
-            StockModel = commentDto.StockModel,
-            StockId = commentDto.StockId
+            StockId = stockId
         };
     }
 
-    public static CommentModel ToCommentDtoFromCreateCommentModel(this CreateCommentDto createCommentDto)
+    public static Models.Comment ToCommentDtoFromUpdate(this UpdateCommentDto createCommentDto, Guid stockId)
     {
-        return new CommentModel()
+        return new Models.Comment()
         {
             Title = createCommentDto.Title,
             Content = createCommentDto.Content,
-            CreatedOn = createCommentDto.CreatedOn,
-            StockModel = createCommentDto.StockModel,
-            StockId = createCommentDto.StockId
+            StockId = stockId
         };
     }
 }

@@ -1,4 +1,7 @@
-﻿
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using FinApp.Data;
 using FinApp.DTOs.Stock;
 using FinApp.Interfaces.Stock;
@@ -10,30 +13,27 @@ namespace FinApp.Repository.Stock;
 
 public class StockRepository(AppDBContext context) : IStockRepository
 {
-    public async Task<List<StockModel>> GetAllStocksAsync()
+    public async Task<List<Models.Stock>> GetAllStocksAsync()
     {
-        var stocks = await context.Stocks.Select(s => s.ToStockDto()).ToListAsync();
-
-        return stocks.Select(x => x.ToStockModel()).ToList();
+        return await context.Stocks.Include(c => c.Comments).ToListAsync();
     }
 
-    public async Task<StockModel?> GetStockByIdAsync(Guid id)
+    public async Task<Models.Stock?> GetStockByIdAsync(Guid id)
     {
-        var stockModel = await context.Stocks.FindAsync(id);
+        var stockModel = await context.Stocks.Include(c => c.Comments).FirstOrDefaultAsync(stockId => stockId.Id == id);
         var stockDto = stockModel?.ToStockDto();
         return stockDto?.ToStockModel();
     }
 
-    public async Task<StockModel> CreateStockAsync(CreateStockRequestDto createStockRequestDto)
+    public async Task<Models.Stock> CreateStockAsync(CreateStockRequestDto createStockRequestDto)
     {
         var stockModel = createStockRequestDto.ToStockFromCreateDto();
         await context.Stocks.AddAsync(stockModel);
         await context.SaveChangesAsync();
         return stockModel;
-
     }
 
-    public async Task<StockModel?> UpdateStockByIdAsync(Guid id, UpdateStockRequestDto updateStockRequestDto)
+    public async Task<Models.Stock?> UpdateStockByIdAsync(Guid id, UpdateStockRequestDto updateStockRequestDto)
     {
         var stockModel = await context.Stocks.FirstOrDefaultAsync(s => s.Id == id);
 
@@ -55,7 +55,7 @@ public class StockRepository(AppDBContext context) : IStockRepository
         return stockModel;
     }
 
-    public async Task<StockModel?> DeleteStockByIdAsync(Guid id)
+    public async Task<Models.Stock?> DeleteStockByIdAsync(Guid id)
     {
         var stockModel = await context.Stocks.FirstOrDefaultAsync(s => s.Id == id);
         if (stockModel == null)
@@ -66,5 +66,10 @@ public class StockRepository(AppDBContext context) : IStockRepository
         context.Stocks.Remove(stockModel);
         await context.SaveChangesAsync();
         return stockModel;
+    }
+
+    public async Task<bool> StockExists(Guid id)
+    {
+        return await context.Stocks.AnyAsync(stock => stock.Id == id);
     }
 }

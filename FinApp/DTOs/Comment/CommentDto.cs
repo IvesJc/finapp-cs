@@ -1,4 +1,5 @@
-﻿using FinApp.Models;
+﻿using System;
+using FinApp.Models;
 
 namespace FinApp.DTOs.Comment;
 
@@ -11,6 +12,6 @@ public class CommentDto
     public string Content { get; set; } = string.Empty;
     public DateTime CreatedOn { get; set; } = DateTime.Now;
     
-    public int? StockId { get; set; }
-    public StockModel StockModel { get; set; }
+    public Guid? StockId { get; set; }
+    public Models.Stock? Stock { get; set; }
 }

@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace FinApp.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    [Migration("20250222205617_init")]
-    partial class init
+    [Migration("20250302171651_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,7 +25,7 @@ namespace FinApp.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("FinApp.Models.CommentModel", b =>
+            modelBuilder.Entity("FinApp.Models.Comment", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -33,29 +33,26 @@ namespace FinApp.Migrations
 
                     b.Property<string>("Content")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("varchar(100)");
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<int?>("StockId")
-                        .HasColumnType("integer");
-
-                    b.Property<Guid>("StockModelId")
+                    b.Property<Guid?>("StockId")
                         .HasColumnType("uuid");
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("varchar(50)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("StockModelId");
+                    b.HasIndex("StockId");
 
                     b.ToTable("tb_comment");
                 });
 
-            modelBuilder.Entity("FinApp.Models.StockModel", b =>
+            modelBuilder.Entity("FinApp.Models.Stock", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -63,11 +60,11 @@ namespace FinApp.Migrations
 
                     b.Property<string>("CompanyName")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("varchar(50)");
 
                     b.Property<string>("Industry")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("varchar(50)");
 
                     b.Property<decimal>("LastDiv")
                         .HasColumnType("decimal(18,2)");
@@ -80,25 +77,23 @@ namespace FinApp.Migrations
 
                     b.Property<string>("Symbol")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("varchar(10)");
 
                     b.HasKey("Id");
 
                     b.ToTable("tb_stock");
                 });
 
-            modelBuilder.Entity("FinApp.Models.CommentModel", b =>
+            modelBuilder.Entity("FinApp.Models.Comment", b =>
                 {
-                    b.HasOne("FinApp.Models.StockModel", "StockModel")
+                    b.HasOne("FinApp.Models.Stock", "Stock")
                         .WithMany("Comments")
-                        .HasForeignKey("StockModelId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("StockId");
 
-                    b.Navigation("StockModel");
+                    b.Navigation("Stock");
                 });
 
-            modelBuilder.Entity("FinApp.Models.StockModel", b =>
+            modelBuilder.Entity("FinApp.Models.Stock", b =>
                 {
                     b.Navigation("Comments");
                 });

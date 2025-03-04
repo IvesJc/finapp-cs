@@ -1,13 +1,17 @@
-﻿using FinApp.DTOs.Comment;
+﻿using System;
+using System.Threading.Tasks;
+using FinApp.DTOs.Comment;
 using FinApp.Interfaces.Comment;
+using FinApp.Interfaces.Stock;
 using FinApp.Mappers.Comment;
+using FinApp.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FinApp.Controllers;
 
 [Route("api/comment")]
 [ApiController]
-public class CommentController(ICommentRepository commentRepository) : ControllerBase
+public class CommentController(ICommentRepository commentRepository, IStockRepository stockRepository) : ControllerBase
 {
     [HttpGet]
     public async Task<IActionResult> GetComments()
@@ -27,11 +31,17 @@ public class CommentController(ICommentRepository commentRepository) : Controlle
         return Ok(comment);
     }
 
-    [HttpPost]
-    public async Task<IActionResult> CreateComment(CreateCommentDto commentDto)
+    [HttpPost("{stockId}")]
+    public async Task<IActionResult> CreateComment([FromRoute] Guid stockId, CreateCommentDto commentDto)
     {
-        var comment = await commentRepository.CreateCommentAsync(commentDto);
-        return CreatedAtAction(nameof(GetCommentById), new {id = comment.Id}, comment.ToCommentDto());
+        if (!await stockRepository.StockExists(stockId))
+        {
+            return BadRequest("Stock doesn't exist");
+        }
+        
+        var commentModel = commentDto.ToCommentDtoFromCreate(stockId); 
+        await commentRepository.CreateCommentAsync(commentModel);
+        return CreatedAtAction(nameof(GetCommentById), new {id = commentModel.Id}, commentModel.ToCommentDto());
     }
 
     [HttpPut("{id:guid}")]
