@@ -1,13 +1,9 @@
 using FinApp.Data;
-using FinApp.Interfaces.Comment;
+using FinApp.Interfaces;
 using FinApp.Interfaces.Stock;
-using FinApp.Repository.CommentRepository;
-using FinApp.Repository.Stock;
-using Microsoft.AspNetCore.Builder;
+using FinApp.Repository;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
+using Newtonsoft.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,7 +22,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddControllers().AddNewtonsoftJson(options =>
 {
-    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+    options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
 });
 
 builder.Services.AddScoped<IStockRepository, StockRepository>();

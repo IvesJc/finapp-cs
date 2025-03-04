@@ -1,8 +1,6 @@
-﻿using System;
-using System.Threading.Tasks;
-using FinApp.DTOs.Stock;
+﻿using FinApp.DTOs.Stock;
 using FinApp.Interfaces.Stock;
-using FinApp.Mappers.Stock;
+using FinApp.Mappers;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FinApp.Controllers;

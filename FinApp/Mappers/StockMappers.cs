@@ -1,12 +1,11 @@
 ﻿using FinApp.DTOs.Stock;
-using FinApp.Mappers.Comment;
 using FinApp.Models;
 
-namespace FinApp.Mappers.Stock;
+namespace FinApp.Mappers;
 
 public static class StockMappers
 {
-    public static StockDto ToStockDto(this Models.Stock stock)
+    public static StockDto ToStockDto(this Stock stock)
     {
         return new StockDto()
         {
@@ -21,9 +20,9 @@ public static class StockMappers
         };
     }
 
-    public static Models.Stock ToStockModel(this StockDto stockDto)
+    public static Stock ToStockModel(this StockDto stockDto)
     {
-        return new Models.Stock()
+        return new Stock()
         {
             Symbol = stockDto.Symbol,
             CompanyName = stockDto.CompanyName,
@@ -34,9 +33,9 @@ public static class StockMappers
         };
     }
 
-    public static Models.Stock ToStockFromCreateDto(this CreateStockRequestDto stockDto)
+    public static Stock ToStockFromCreateDto(this CreateStockRequestDto stockDto)
     {
-        return new Models.Stock()
+        return new Stock()
         {
             Symbol = stockDto.Symbol,
             CompanyName = stockDto.CompanyName,

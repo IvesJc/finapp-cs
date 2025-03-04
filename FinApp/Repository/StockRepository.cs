@@ -1,31 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using FinApp.Data;
+﻿using FinApp.Data;
 using FinApp.DTOs.Stock;
 using FinApp.Interfaces.Stock;
-using FinApp.Mappers.Stock;
+using FinApp.Mappers;
 using FinApp.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace FinApp.Repository.Stock;
+namespace FinApp.Repository;
 
 public class StockRepository(AppDBContext context) : IStockRepository
 {
-    public async Task<List<Models.Stock>> GetAllStocksAsync()
+    public async Task<List<Stock>> GetAllStocksAsync()
     {
         return await context.Stocks.Include(c => c.Comments).ToListAsync();
     }
 
-    public async Task<Models.Stock?> GetStockByIdAsync(Guid id)
+    public async Task<Stock?> GetStockByIdAsync(Guid id)
     {
         var stockModel = await context.Stocks.Include(c => c.Comments).FirstOrDefaultAsync(stockId => stockId.Id == id);
         var stockDto = stockModel?.ToStockDto();
         return stockDto?.ToStockModel();
     }
 
-    public async Task<Models.Stock> CreateStockAsync(CreateStockRequestDto createStockRequestDto)
+    public async Task<Stock> CreateStockAsync(CreateStockRequestDto createStockRequestDto)
     {
         var stockModel = createStockRequestDto.ToStockFromCreateDto();
         await context.Stocks.AddAsync(stockModel);
@@ -33,7 +29,7 @@ public class StockRepository(AppDBContext context) : IStockRepository
         return stockModel;
     }
 
-    public async Task<Models.Stock?> UpdateStockByIdAsync(Guid id, UpdateStockRequestDto updateStockRequestDto)
+    public async Task<Stock?> UpdateStockByIdAsync(Guid id, UpdateStockRequestDto updateStockRequestDto)
     {
         var stockModel = await context.Stocks.FirstOrDefaultAsync(s => s.Id == id);
 
@@ -55,7 +51,7 @@ public class StockRepository(AppDBContext context) : IStockRepository
         return stockModel;
     }
 
-    public async Task<Models.Stock?> DeleteStockByIdAsync(Guid id)
+    public async Task<Stock?> DeleteStockByIdAsync(Guid id)
     {
         var stockModel = await context.Stocks.FirstOrDefaultAsync(s => s.Id == id);
         if (stockModel == null)

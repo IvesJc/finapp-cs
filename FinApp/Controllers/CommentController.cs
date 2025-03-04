@@ -1,10 +1,7 @@
-﻿using System;
-using System.Threading.Tasks;
-using FinApp.DTOs.Comment;
-using FinApp.Interfaces.Comment;
+﻿using FinApp.DTOs.Comment;
+using FinApp.Interfaces;
 using FinApp.Interfaces.Stock;
-using FinApp.Mappers.Comment;
-using FinApp.Models;
+using FinApp.Mappers;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FinApp.Controllers;
@@ -31,7 +28,7 @@ public class CommentController(ICommentRepository commentRepository, IStockRepos
         return Ok(comment);
     }
 
-    [HttpPost("{stockId}")]
+    [HttpPost("{stockId:guid}")]
     public async Task<IActionResult> CreateComment([FromRoute] Guid stockId, CreateCommentDto commentDto)
     {
         if (!await stockRepository.StockExists(stockId))
@@ -59,7 +56,7 @@ public class CommentController(ICommentRepository commentRepository, IStockRepos
     [HttpDelete("{id:guid}")]
     public async Task<IActionResult> DeleteComment(Guid id)
     {
-        var comment = await commentRepository.GetCommentByIdAsync(id);
+        var comment = await commentRepository.DeleteCommentByAsync(id);
         if (comment == null)
         {
             return NotFound();

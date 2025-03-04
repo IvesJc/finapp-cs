@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using FinApp.Data;
+﻿using FinApp.Data;
 using FinApp.DTOs.Comment;
-using FinApp.Interfaces.Comment;
-using FinApp.Mappers.Comment;
+using FinApp.Interfaces;
 using FinApp.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace FinApp.Repository.CommentRepository;
+namespace FinApp.Repository;
 
 public class CommentRepository(AppDBContext dbContext) : ICommentRepository
 {

@@ -1,11 +1,11 @@
 ﻿using FinApp.DTOs.Comment;
 using FinApp.Models;
 
-namespace FinApp.Mappers.Comment;
+namespace FinApp.Mappers;
 
 public static class CommentMappers
 {
-    public static CommentDto ToCommentDto(this Models.Comment comment)
+    public static CommentDto ToCommentDto(this Comment comment)
     {
         return new CommentDto
         {
@@ -17,9 +17,9 @@ public static class CommentMappers
         };
     }
 
-    public static Models.Comment ToCommentDtoFromCreate(this CreateCommentDto commentDto, Guid stockId)
+    public static Comment ToCommentDtoFromCreate(this CreateCommentDto commentDto, Guid stockId)
     {
-        return new Models.Comment()
+        return new Comment()
         {
             Title = commentDto.Title,
             Content = commentDto.Content,
@@ -27,9 +27,9 @@ public static class CommentMappers
         };
     }
 
-    public static Models.Comment ToCommentDtoFromUpdate(this UpdateCommentDto createCommentDto, Guid stockId)
+    public static Comment ToCommentDtoFromUpdate(this UpdateCommentDto createCommentDto, Guid stockId)
     {
-        return new Models.Comment()
+        return new Comment()
         {
             Title = createCommentDto.Title,
             Content = createCommentDto.Content,

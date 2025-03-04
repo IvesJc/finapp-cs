@@ -13,5 +13,4 @@ public class CommentDto
     public DateTime CreatedOn { get; set; } = DateTime.Now;
     
     public Guid? StockId { get; set; }
-    public Models.Stock? Stock { get; set; }
 }
