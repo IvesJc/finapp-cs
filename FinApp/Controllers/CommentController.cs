@@ -1,4 +1,5 @@
 ﻿using FinApp.DTOs.Comment;
+using FinApp.DTOs.Comments;
 using FinApp.Interfaces;
 using FinApp.Interfaces.Stock;
 using FinApp.Mappers;

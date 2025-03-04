@@ -1,7 +1,7 @@
 ﻿using System;
 using FinApp.Models;
 
-namespace FinApp.DTOs.Comment;
+namespace FinApp.DTOs.Comments;
 
 public class CommentDto
 {
