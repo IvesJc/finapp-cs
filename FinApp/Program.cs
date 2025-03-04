@@ -1,4 +1,5 @@
 using FinApp.Data;
+using FinApp.Filters;
 using FinApp.Interfaces;
 using FinApp.Repository;
 using Microsoft.EntityFrameworkCore;
@@ -19,16 +20,21 @@ builder.Services.AddControllersWithViews(options => { options.SuppressAsyncSuffi
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// To avoid object loop
 builder.Services.AddControllers().AddNewtonsoftJson(options =>
 {
     options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
 });
+
+// To use the ValidationFilter class in every API call
+builder.Services.AddControllers(options => options.Filters.Add<ValidationFilter>());
 
 builder.Services.AddScoped<IStockRepository, StockRepository>();
 builder.Services.AddScoped<ICommentRepository, CommentRepository>();
 
 var app = builder.Build();
 
+// To allow DateTime in PostgreSQL
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
 // Configure the HTTP request pipeline.
