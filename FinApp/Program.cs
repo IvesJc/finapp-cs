@@ -1,6 +1,5 @@
 using FinApp.Data;
 using FinApp.Interfaces;
-using FinApp.Interfaces.Stock;
 using FinApp.Repository;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;

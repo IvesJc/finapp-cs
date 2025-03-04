@@ -1,4 +1,4 @@
-﻿using FinApp.DTOs.Comment;
+﻿using FinApp.DTOs.Comments;
 using FinApp.Models;
 
 namespace FinApp.Interfaces;

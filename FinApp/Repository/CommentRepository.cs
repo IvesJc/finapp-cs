@@ -1,5 +1,5 @@
 ﻿using FinApp.Data;
-using FinApp.DTOs.Comment;
+using FinApp.DTOs.Comments;
 using FinApp.Interfaces;
 using FinApp.Models;
 using Microsoft.EntityFrameworkCore;

@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using FinApp.DTOs.Stock;
-using FinApp.Models;
+﻿using FinApp.DTOs.Stock;
+using FinApp.DTOs.Stocks;
 
-namespace FinApp.Interfaces.Stock;
+namespace FinApp.Interfaces;
 
 public interface IStockRepository
 {

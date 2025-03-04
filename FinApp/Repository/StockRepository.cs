@@ -1,6 +1,7 @@
 ﻿using FinApp.Data;
 using FinApp.DTOs.Stock;
-using FinApp.Interfaces.Stock;
+using FinApp.DTOs.Stocks;
+using FinApp.Interfaces;
 using FinApp.Mappers;
 using FinApp.Models;
 using Microsoft.EntityFrameworkCore;

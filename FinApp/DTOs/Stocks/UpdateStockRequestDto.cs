@@ -1,4 +1,4 @@
-﻿namespace FinApp.DTOs.Stock;
+﻿namespace FinApp.DTOs.Stocks;
 
 public class UpdateStockRequestDto
 {

@@ -1,8 +1,6 @@
-﻿using System;
-using FinApp.DTOs.Comment;
-using FinApp.DTOs.Comments;
+﻿using FinApp.DTOs.Comments;
 
-namespace FinApp.DTOs.Stock;
+namespace FinApp.DTOs.Stocks;
 
 public class StockDto
 {

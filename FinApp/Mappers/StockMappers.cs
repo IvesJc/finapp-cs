@@ -1,4 +1,5 @@
 ﻿using FinApp.DTOs.Stock;
+using FinApp.DTOs.Stocks;
 using FinApp.Models;
 
 namespace FinApp.Mappers;
