@@ -1,15 +1,15 @@
-﻿using FinApp.DTOs.Stock;
-using FinApp.DTOs.Stocks;
+﻿using FinApp.DTOs.Stocks;
+using FinApp.Models;
 
 namespace FinApp.Interfaces;
 
 public interface IStockRepository
 {
-    Task<List<Models.Stock>> GetAllStocksAsync();
-    Task<Models.Stock?> GetStockByIdAsync(Guid id);
-    Task<Models.Stock> CreateStockAsync(CreateStockRequestDto createStockRequestDto);
-    Task<Models.Stock?> UpdateStockByIdAsync(Guid id, UpdateStockRequestDto updateStockRequestDto);
-    Task<Models.Stock?> DeleteStockByIdAsync(Guid id);
+    Task<List<Stock>> GetAllStocksAsync();
+    Task<Stock?> GetStockByIdAsync(Guid id);
+    Task<Stock> CreateStockAsync(CreateStockRequestDto createStockRequestDto);
+    Task<Stock?> UpdateStockByIdAsync(Guid id, UpdateStockRequestDto updateStockRequestDto);
+    Task<Stock?> DeleteStockByIdAsync(Guid id);
     
     Task<bool> StockExists(Guid id);
 }
