@@ -1,5 +1,6 @@
 ﻿using FinApp.Data;
 using FinApp.DTOs.Stocks;
+using FinApp.Helpers;
 using FinApp.Interfaces;
 using FinApp.Mappers;
 using FinApp.Models;
@@ -9,9 +10,18 @@ namespace FinApp.Repository;
 
 public class StockRepository(AppDBContext context) : IStockRepository
 {
-    public async Task<List<Stock>> GetAllStocksAsync()
+    public async Task<List<Stock>> GetAllStocksAsync(QueryObjects queryObjects)
     {
-        return await context.Stocks.Include(c => c.Comments).ToListAsync();
+        var stocks = context.Stocks.Include(c => c.Comments).AsQueryable();
+        if (!string.IsNullOrWhiteSpace(queryObjects.Symbol))
+        {
+            stocks = stocks.Where(s => s.Symbol.Contains(queryObjects.Symbol));
+        }if (!string.IsNullOrWhiteSpace(queryObjects.CompanyName))
+        {
+            stocks = stocks.Where(cn => cn.CompanyName.Contains(queryObjects.CompanyName));
+        }
+
+        return await stocks.ToListAsync();
     }
 
     public async Task<Stock?> GetStockByIdAsync(Guid id)

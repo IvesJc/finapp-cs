@@ -1,4 +1,5 @@
 ﻿using FinApp.DTOs.Stocks;
+using FinApp.Helpers;
 using FinApp.Interfaces;
 using FinApp.Mappers;
 using Microsoft.AspNetCore.Mvc;
@@ -10,9 +11,9 @@ namespace FinApp.Controllers;
 public class StockController(IStockRepository stockRepository) : ControllerBase
 {
     [HttpGet]
-    public async Task<IActionResult> GetAllStocks()
+    public async Task<IActionResult> GetAllStocks([FromQuery] QueryObjects queryObjects)
     {
-        var stocks = await stockRepository.GetAllStocksAsync();
+        var stocks = await stockRepository.GetAllStocksAsync(queryObjects);
         return Ok(stocks);
     }
 
