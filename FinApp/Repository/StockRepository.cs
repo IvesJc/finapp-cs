@@ -16,9 +16,18 @@ public class StockRepository(AppDBContext context) : IStockRepository
         if (!string.IsNullOrWhiteSpace(queryObjects.Symbol))
         {
             stocks = stocks.Where(s => s.Symbol.Contains(queryObjects.Symbol));
-        }if (!string.IsNullOrWhiteSpace(queryObjects.CompanyName))
+        }
+        if (!string.IsNullOrWhiteSpace(queryObjects.CompanyName))
         {
             stocks = stocks.Where(cn => cn.CompanyName.Contains(queryObjects.CompanyName));
+        }
+
+        if (string.IsNullOrWhiteSpace(queryObjects.SortBy)) return await stocks.ToListAsync();
+        if (queryObjects.SortBy.Equals("Symbol", StringComparison.OrdinalIgnoreCase))
+        {
+            stocks = queryObjects.IsDescending
+                ? stocks.OrderByDescending(sb => sb.Symbol)
+                : stocks.OrderBy(sb => sb.Symbol);
         }
 
         return await stocks.ToListAsync();
